@@ -46,6 +46,8 @@ public class Robot
 	}
 
 	String salida=new String();
+
+	static HashMap<String,Integer > dictAssingments = new HashMap <String,Integer >();
 }
 PARSER_END(Robot)
 
@@ -67,7 +69,15 @@ TOKEN: /* Nombres de Comandos */
 		|  < POP: "Pop" >
 		|  <GO: "GO" >
         |  < HOP:  "HOP" >
-        |  < JUMP: "jump" >	
+        | < WALK: "walk" >
+        | < LEAP: "leap" >
+        | < TURN: "turn" >
+        | < TURNTO: "turnto" >
+        | < DROP: "drop" >
+        | < GET: "get" >
+        | < GRAB: "grab" >
+        | < LETGO: "letGo" >
+        | < NOP: "nop" >
 
 }
 
@@ -84,6 +94,7 @@ TOKEN :
 {
 		<NUM: (<DIGIT>)+ >
 		|  	<#DIGIT: ["0"-"9"] >
+		| <VARIABLE: (["a"-"z"])+ >
         
 }
 
@@ -91,8 +102,9 @@ TOKEN :
 
 	//boolean command(uniandes.lym.robot.view.Console sistema) :
 	boolean command(Console sistema):
-	{	
-		
+	{
+	  	Integer value = -1;
+		String name = "";
 		int x,y;
 		salida=new String();	
 	}
@@ -107,6 +119,16 @@ TOKEN :
 		|  <PUT> "("  put() ")"					  			
 		|  <PICK> "(" get()  ")"	
 	    |  < POP > "(" x=num() ")" {world.popBalloons(x); salida = "Comando:  Pop";}
+	    |  < VARIABLE > { name = token.image; } "=" < NUM > { value = Integer.parseInt(token.image); dictVariables.put(name, value); salida = "Command: Assignation ";}
+	    |  < WALK > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" { salida = "Command: Walk "; }
+	    |  < LEAP > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" { salida = "Command: Leap "; }
+	    |  < TURN > "(" ("right"|"left"|"around") ")" { salida = "Command: Turn "; }
+	    |  < TURNTO > "(" ("north"|"south"|"west"|"east") ")" { salida = "Command: Turnto "; }
+	    |  < DROP > "(" x=num() ")" { salida = "Command: Drop "; }
+	    |  < GET > "(" x=num() ")" { salida = "Command: Get "; }
+	    |  < GRAB > "(" x=num() ")" { salida = "Command: Grab "; }
+	    |  < LETGO > "(" x=num() ")" { salida = "Command: Letgo "; }
+	    |  < NOP > "()" { salida = "Command: Nop "; }
 		) ";" 
 
 		{

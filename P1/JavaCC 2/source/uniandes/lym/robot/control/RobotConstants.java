@@ -25,13 +25,15 @@ public interface RobotConstants {
   /** RegularExpression Id. */
   int HOP = 11;
   /** RegularExpression Id. */
-  int BALLOONS = 12;
+  int JUMP = 12;
   /** RegularExpression Id. */
-  int CHIPS = 13;
+  int BALLOONS = 13;
   /** RegularExpression Id. */
-  int NUM = 14;
+  int CHIPS = 14;
   /** RegularExpression Id. */
-  int DIGIT = 15;
+  int NUM = 15;
+  /** RegularExpression Id. */
+  int DIGIT = 16;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -50,6 +52,7 @@ public interface RobotConstants {
     "\"Pop\"",
     "\"GO\"",
     "\"HOP\"",
+    "\"jump\"",
     "\"BALLOONS\"",
     "\"CHIPS\"",
     "<NUM>",
