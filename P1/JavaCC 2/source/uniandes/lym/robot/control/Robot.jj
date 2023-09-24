@@ -9,6 +9,7 @@ Modificado por Silvia Takahashi
 
  **/
 
+//Prueba
 
 options 
 {
@@ -65,7 +66,8 @@ TOKEN: /* Nombres de Comandos */
 		| 	<PICK: "Pick">
 		|  < POP: "Pop" >
 		|  <GO: "GO" >
-        |  < HOP:  "HOP" >		
+        |  < HOP:  "HOP" >
+        |  < JUMP: "jump" >	
 
 }
 
