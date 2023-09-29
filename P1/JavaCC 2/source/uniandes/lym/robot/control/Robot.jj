@@ -164,6 +164,107 @@ TOKEN :
 		|  	  ( <BALLOONS>   "," f=num() {world.grabBalloons(f);salida="Command:  Pick balloons";})	 
 
 	}
+	void Go() :
+
+	{
+	
+	int f=1;
+	
+	int p=1;
+	
+	}
+	
+	{
+	
+	(  f=num()  "," p=num() {world.Go(f,p); salida = "Command: Go position"; })
+	
+	}
+
+	void move() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.move(f); salida = "Command: Move n Steps";} )
+	
+	}
+
+	void pop() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.pop(f); salida = "Command: Pop n Baloons";} )
+	
+	}
+
+	void hop() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.hop(f); salida = "Command: Hop n Positions";} )
+	
+	}
+
+	void right() :
+
+	{}
+	
+	{
+	
+	( {world.right(); salida = "Command: Turn right";} )
+	
+	}
+
+	void pick() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	( <CHIPS>  "," f=num() {world.pickChips(f); salida = "Command: Pick Chips"; })
+	
+	|  ( <BALLOONS>  "," f=num() {world.pickBalloons(f); salida = "Command: Pick Balloons";})
+	
+	}
+	
+	void get() :
+	
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	( <CHIPS>  "," f=num() {world.pickChips(f);salida = "Command: Pick chips";})
+	
+	|  ( <BALLOONS>  "," f=num() {world.grabBalloons(f);salida="Command: Pick balloons";})
+	
+	}
+
+	
 
 	
 	
