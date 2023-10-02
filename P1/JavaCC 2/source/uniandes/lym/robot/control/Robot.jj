@@ -123,12 +123,12 @@ TOKEN :
 	    |  < WALK > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" {world.walk(f); salida = "Command: Walk n Steps";}
 	    |  < LEAP > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" {world.leap(f); salida = "Command: Leap n Steps";}
 	    |  < TURN > "(" ("right"|"left"|"around") ")" {world.Turn salida = "Command: Turn "; }
-	    |  < TURNTO > "(" ("north"|"south"|"west"|"east") ")" { salida = "Command: Turnto "; }
-	    |  < DROP > "(" x=num() ")" { salida = "Command: Drop "; }
-	    |  < GET > "(" x=num() ")" { salida = "Command: Get "; }
-	    |  < GRAB > "(" x=num() ")" { salida = "Command: Grab "; }
-	    |  < LETGO > "(" x=num() ")" { salida = "Command: Letgo "; }
-	    |  < NOP > "()" { salida = "Command: Nop "; }
+	    |  < TURNTO > "(" ("north"|"south"|"west"|"east") ")" {world.TurnTo salida = "Command: Turnto "; }
+	    |  < DROP > "(" x=num() ")"{world.drop(f); salida = "Command: Drop n Chips";}
+	    |  < GET > "(" x=num() ")" {world.get(f); salida = "Command: get n Chips";} 
+	    |  < GRAB > "(" x=num() ")" {world.grab(f); salida = "Command: Grab n Balloons";}
+	    |  < LETGO > "(" x=num() ")"  {world.letGo(f); salida = "Command: Put n Balloons";}
+	    |  < NOP > "()" {world.nop(); salida = "Command: Nop";} 
 		) ";" 
 
 		{
@@ -154,6 +154,20 @@ TOKEN :
 		|  	  ( <BALLOONS>   "," f=num() {world.putBalloons(f); salida = "Command:  Put Balloons";})	 
 
 	}
+
+	void turn() :
+	{}
+	{
+		(("right"|"left"|"around") {world.Turn salida = "Command: Turn "; }) 
+	}
+
+	void turnTo() :
+	{}
+	{
+		(("north"|"south"|"west"|"east") {world.TurnTo salida = "Command: Turnto "; }) 
+	}
+
+	
 
 	void get() :
 	{
@@ -335,7 +349,7 @@ TOKEN :
 	
 	{
 	
-	(  f=num() {{world.moveForward(x,true); salida = "Command: Hop n Positions";} )
+	(  f=num() {world.moveForward(x,true); salida = "Command: Hop n Positions";})
 	
 	}
 
@@ -380,6 +394,7 @@ TOKEN :
 	|  ( <BALLOONS>  "," f=num() {world.grabBalloons(f);salida="Command: Pick balloons";})
 	
 	}
+
 
 	
 
