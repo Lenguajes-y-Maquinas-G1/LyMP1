@@ -116,13 +116,13 @@ TOKEN :
 		| 	<MOV>  "(" x=num() ")" {world.moveForward(x,false);salida = "Command: Moveforward ";}  
 		| 	<HOP>  "(" x=num() ")" {world.moveForward(x,true);salida = "Command:Jumpforward ";}
 		| 	<GO>  "(" x=num() "," y=num()")" {world.setPostion(x,y);salida = "Command:GO ";}  
-		|  <PUT> "("  put() ")"					  			
-		|  <PICK> "(" get()  ")"	
+		|  <PUT> "("  put() ")"	{world.putChips(f); salida = "Command:  Put Chips"; }				  			
+		|  <PICK> "(" get()  ")"{world.pickChips(f);salida = "Command: Pick chips";}	
 	    |  < POP > "(" x=num() ")" {world.popBalloons(x); salida = "Comando:  Pop";}
 	    |  < VARIABLE > { name = token.image; } "=" < NUM > { value = Integer.parseInt(token.image); dictVariables.put(name, value); salida = "Command: Assignation ";}
-	    |  < WALK > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" { salida = "Command: Walk "; }
-	    |  < LEAP > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" { salida = "Command: Leap "; }
-	    |  < TURN > "(" ("right"|"left"|"around") ")" { salida = "Command: Turn "; }
+	    |  < WALK > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" {world.walk(f); salida = "Command: Walk n Steps";}
+	    |  < LEAP > "(" (x=num()|x=num()","("front"|"right"|"left"|"back"|"north"|"south"|"west"|"east")) ")" {world.leap(f); salida = "Command: Leap n Steps";}
+	    |  < TURN > "(" ("right"|"left"|"around") ")" {world.Turn salida = "Command: Turn "; }
 	    |  < TURNTO > "(" ("north"|"south"|"west"|"east") ")" { salida = "Command: Turnto "; }
 	    |  < DROP > "(" x=num() ")" { salida = "Command: Drop "; }
 	    |  < GET > "(" x=num() ")" { salida = "Command: Get "; }
@@ -164,7 +164,7 @@ TOKEN :
 		|  	  ( <BALLOONS>   "," f=num() {world.grabBalloons(f);salida="Command:  Pick balloons";})	 
 
 	}
-	void Go() :
+	void go() :
 
 	{
 	
@@ -176,7 +176,23 @@ TOKEN :
 	
 	{
 	
-	(  f=num()  "," p=num() {world.Go(f,p); salida = "Command: Go position"; })
+	(  f=num()  "," p=num() {world.setPostion(x,y); salida = "Command: Go position"; })
+	
+	}
+
+	void jump() :
+
+	{
+	
+	int f=1;
+	
+	int p=1;
+	
+	}
+	
+	{
+	
+	(  f=num()  "," p=num() {world.Jump(f,p); salida = "Command: Jump position"; })
 	
 	}
 
@@ -190,7 +206,106 @@ TOKEN :
 	
 	{
 	
-	(  f=num() {world.move(f); salida = "Command: Move n Steps";} )
+	(  f=num() {world.moveForward(x,false); salida = "Command: Move n Steps";} )
+	
+	}
+
+	void leap() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.leap(f); salida = "Command: Leap n Steps";} )
+	
+	}
+
+	
+
+	void drop() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.drop(f); salida = "Command: Drop n Chips";} )
+	
+	}
+
+	void get() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.get(f); salida = "Command: get n Chips";} )
+	
+	}
+
+	void walk() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.walk(f); salida = "Command: Walk n Steps";} )
+	
+	}
+
+	void grab() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.grab(f); salida = "Command: Grab n Balloons";} )
+	
+	}
+
+	void letGo() :
+
+	{
+	
+	int f=1;
+	
+	}
+	
+	{
+	
+	(  f=num() {world.letGo(f); salida = "Command: Put n Balloons";} )
+	
+	}
+
+	void nop() :
+
+	{
+	
+	
+	}
+	
+	{
+	
+	(  {world.nop(); salida = "Command: Nop";} )
 	
 	}
 
@@ -204,9 +319,11 @@ TOKEN :
 	
 	{
 	
-	(  f=num() {world.pop(f); salida = "Command: Pop n Baloons";} )
+	(  f=num() {world.popBalloons(x); salida = "Command: Pop n Baloons";} )
 	
 	}
+
+	
 
 	void hop() :
 
@@ -218,7 +335,7 @@ TOKEN :
 	
 	{
 	
-	(  f=num() {world.hop(f); salida = "Command: Hop n Positions";} )
+	(  f=num() {{world.moveForward(x,true); salida = "Command: Hop n Positions";} )
 	
 	}
 
@@ -228,7 +345,7 @@ TOKEN :
 	
 	{
 	
-	( {world.right(); salida = "Command: Turn right";} )
+	( {world.turnRight(); salida = "Command: Turn right";} )
 	
 	}
 
